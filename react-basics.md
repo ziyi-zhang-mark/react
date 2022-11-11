@@ -29,3 +29,11 @@ Dynamic CSS classes
 ```js
 <div className={`form-control ${!isValid && "invalid"}`}>
 ```
+
+### Fragments, Portals and Refs
+
+Fragment(<>, or <React.Fragment>) - an empty wrapper component.
+Portal - render elements outside the component itself in the html file.
+Ref - try to read data from a DOM element in code.
+
+### Effects, Reducers and Context
