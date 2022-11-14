@@ -109,3 +109,156 @@ const context = useContext(AuthContext);
 context.isLoggedIn;
 context.onLogout;
 ```
+
+### Optimization
+
+`React.memo(DemoOutput)` - avoid re-evaluation of the component and its child conponents if no props changed.
+
+`useCallback(() => {}, [])` - store the function so that function will be pointed to the original one after re-evaluated. Dependency list is the state where the function should be re-created when they are changed.
+
+```js
+const toggleHandler = useCallback(() => {
+  if (allowToggle) {
+    setShowParagraph((prevState) => !preState);
+  }
+}, [allowToggle]);
+```
+
+`useMemo()` - store some data which will need intensive calculation or resources.
+
+```js
+const listItems = useMemo(() => [5, 3, 1, 10, 9], [])
+<DemoList title={listTitle} items={listItems} />
+
+const { items } = props;
+const sortedList = useMemo(() => {
+  return items.sort((a, b) => a - b);
+}, [items]);
+```
+
+### Class Based Component
+
+![](media/class-based-component.png)
+
+#### State and Event Handler
+
+```js
+import { Component } from "react";
+
+class User extends Component {
+  render() {
+    return <li>{this.props.name}</li>; // returns JSX elements
+  }
+}
+
+class Users extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showUsers: true,
+    };
+  }
+
+  toggleUsersHandler() {
+    // setState will merge object other than override
+    this.setState((prevState) => {
+      return { showUsers: !prevState.showUsers };
+    });
+  }
+
+  render() {
+    const usersList = (
+      <ul>
+        {DUMMY_USERS.map((user) => (
+          <User key={user.id} name={user.name} />
+        ))}
+      </ul>
+    );
+
+    return (
+      <div className={classes.users}>
+        <button onClick={this.toggleUsersHandler.bind(this)}>
+          {this.state.showUsers ? "Hide" : "Show"} Users
+        </button>
+        {this.state.showUsers && usersList}
+      </div>
+    );
+  }
+}
+```
+
+#### Class Based Component Lifecycle
+
+![](media/class-based-component-lifecycle.png)
+
+```js
+class UserFinder extends Component {
+  constructor() {
+    super();
+    this.state = {
+      filteredUsers: [],
+      searchTerm: "",
+    };
+  }
+
+  // called only once when the component is rendered for the first time
+  componentDidMount() {
+    this.setState({ filteredUsers: DUMMY_USERS });
+  }
+
+  // called when re-evaluated
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchTerm !== this.state.searchTerm) {
+      this.setState({
+        filteredUsers: DUMMY_USERS.filter((user) =>
+          user.name.includes(this.state.searchTerm)
+        ),
+      });
+    }
+  }
+
+  searchChangeHandler(event) {
+    this.setState({ searchTerm: event.target.value });
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <div className={classes.finder}>
+          <input type="search" onChange={this.searchChangeHandler.bind(this)} />
+        </div>
+        <Users users={this.state.filteredUsers} />
+      </Fragment>
+    );
+  }
+}
+```
+
+#### Class Based Component Context
+
+#### Class Based Component Only Error Boundary
+
+```js
+import { Component } from "react";
+
+class ErrorBoundary extends Component {
+  constructor() {
+    super();
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error) {
+    console.log(error);
+    this.setState({ hasError: true });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <p>Something went wrong!</p>;
+    }
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
+```
