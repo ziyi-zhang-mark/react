@@ -262,3 +262,48 @@ class ErrorBoundary extends Component {
 
 export default ErrorBoundary;
 ```
+
+### Send Requests
+
+```js
+// using promise
+const fetchMoviesHandler = () => {
+  fetch("https://swapi.dev/api/films/")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const transformedMovies = data.results.map((movie) => ({
+        id: movie.episode_id,
+        title: movie.title,
+        openingText: movie.opening_crawl,
+        releaseDate: movie.release_date,
+      }));
+      setMovies(transformedMovies);
+    });
+};
+
+// using async/await
+async function fetchMoviesHandler() {
+  const response = await fetch("https://swapi.dev/api/films/");
+  const data = await response.json();
+  const transformedMovies = data.results.map((movie) => ({
+    id: movie.episode_id,
+    title: movie.title,
+    openingText: movie.opening_crawl,
+    releaseDate: movie.release_date,
+  }));
+  setMovies(transformedMovies);
+}
+
+// POST request
+async function addMovieHandler(movie) {
+  const response = await fetch("url", {
+    method: "POST",
+    body: JSON.stringify(movie),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+```
