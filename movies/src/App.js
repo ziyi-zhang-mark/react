@@ -9,7 +9,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-  const fetchMoviesHandler = useCallback(async () => {
+  const fetchMoviesHandler = useCallback(() => {
     setIsLoading(true);
     setError();
     fetch("https://swapi.dev/api/films/")
