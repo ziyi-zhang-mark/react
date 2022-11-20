@@ -311,3 +311,5 @@ async function addMovieHandler(movie) {
 ### Redux
 
 ![](media/how-redux-works.png)
+
+### React Router
