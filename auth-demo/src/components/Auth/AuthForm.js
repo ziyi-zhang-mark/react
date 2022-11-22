@@ -61,8 +61,12 @@ const AuthForm = () => {
       })
       .then((data) => {
         console.log(data);
+        const expirationTime = new Date(
+          new Date().getTime() + +data.expiresIn * 1000
+        );
+
         // sign in user in context
-        authContext.login(data.idToken);
+        authContext.login(data.idToken, expirationTime.toISOString());
         history.replace("/");
       })
       .catch((error) => {
