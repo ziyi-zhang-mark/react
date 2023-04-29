@@ -9,3 +9,5 @@ React - The Complete Guide (incl Hooks, React Router, Redux)
 [React cheat sheet](https://devhints.io/react)
 
 [Flexbox cheat sheet](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
+[ES 6 cheat sheet](https://devhints.io/es6)
