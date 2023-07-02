@@ -1,3 +1,6 @@
+import CardCenterElement from "./CardCenterElement";
+import BorderCardFigureConditions from "./BorderCardFigureConditions";
+
 const Card = ({ number, color, symbol, name }) => {
   return (
     <div className="card-container">
@@ -5,19 +8,13 @@ const Card = ({ number, color, symbol, name }) => {
         {/* top left section of the card */}
         <div className={`card-content-inner__border-top ${color}`}>
           <div className="top-symbol">
-            <p>{number}</p>
+            <BorderCardFigureConditions number={number} />
             <span className="top-symbol-sigle">{symbol}</span>
           </div>
         </div>
         {/* center of the card */}
         <div className={`card-content-inner__center grid-${number} ${color}`}>
-          {[...Array(Number(number))].map((_, index) => {
-            return (
-              <span className="center-card" key={index}>
-                <span className="center-symbol-sigle">{symbol}</span>
-              </span>
-            );
-          })}
+          <CardCenterElement number={number} symbol={symbol} name={name} />
         </div>
         {/* bottom right of the card */}
         <div className={`card-content-inner__border-bottom ${color}`}>
