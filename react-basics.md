@@ -380,7 +380,7 @@ async function addMovieHandler(movie) {
 
 ![](media/how-redux-works.png)
 
-React Redux vs React Context
+React Redux(redux-react-demo) vs React Context(meals)
 
 - In more complex apps, managing React Context can lead to deeply nested JSX Provider code or huge "Context Provider" components
 - React Context is not optimized for high-frequency state changes

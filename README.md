@@ -13,7 +13,9 @@ React - The Complete Guide (incl Hooks, React Router, Redux)
 
 ### Projects
 
-- [expenses] - basic components, state management
+- [expenses] - basic components + state management
 - [meals] - hooks
 - [movies] - send HTTP requests
-- [custom-hook](good example) = custom hook function - usehttp()
+- [custom-hook](good example) - custom hook function - usehttp()
+- [replace-redux-with-custom-hook] - implement redux equivalent store with react and hooks only
+- [shop] - redux + async(thunk)
