@@ -1,6 +1,5 @@
 - [Javascript Basics](/js.md)
 - [React Basics](/react-basics.md)
-- [TypeScript Basics](/typescript/typescript-basics.md)
 
 React - The Complete Guide (incl Hooks, React Router, Redux)
 
@@ -11,3 +10,10 @@ React - The Complete Guide (incl Hooks, React Router, Redux)
 [Flexbox cheat sheet](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 
 [ES 6 cheat sheet](https://devhints.io/es6)
+
+### Projects
+
+- [expenses] - basic components, state management
+- [meals] - hooks
+- [movies] - send HTTP requests
+- [custom-hook](good example) = custom hook function - usehttp()

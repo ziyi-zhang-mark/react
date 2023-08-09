@@ -23,7 +23,8 @@ const NewTask = (props) => {
         body: { text: taskText },
       },
       // taskText will be set as the 1st param, when this function is called
-      // data param will be appended to the 2nd param.
+      // preconfig the function by adding the 1st parameter
+      // applyData(data) will send data as taskData in this function
       createTask.bind(null, taskText)
     );
   };

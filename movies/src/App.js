@@ -40,12 +40,20 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  const addMovieHandler = (movie) => {
-    console.log(movie);
-  };
+  async function addMovieHandler(movie) {
+    const response = await fetch("url", {
+      method: "POST",
+      body: JSON.stringify(movie),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+  }
 
   return (
-    <React.Fragment>
+    <>
       <section>
         <AddMovie onAddMovie={addMovieHandler} />
       </section>
@@ -58,7 +66,7 @@ function App() {
         {isLoading && <p>Loading...</p>}
         {!isLoading && error && <p>{error}</p>}
       </section>
-    </React.Fragment>
+    </>
   );
 }
 

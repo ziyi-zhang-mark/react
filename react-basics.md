@@ -1,6 +1,8 @@
 ### React Basics and Components
 
+```sh
 npx create-react-app react-complete-guide
+```
 
 index.js first executed
 
@@ -12,9 +14,12 @@ Declarative - you define the desired outcome, let the library to figure out indi
 
 ### React State and Handling Events
 
-update state with previous state.
+Update state with previous state using a function in setter.
 
 ```js
+// DO NOT
+setUserInput({ ...userInput, enteredTitle: event.target.value });
+// DO
 setUserInput((prevState) => {
   return { ...prevState, enteredTitle: event.target.value };
 });
@@ -32,13 +37,58 @@ Dynamic CSS classes
 
 ### Fragments, Portals and Refs
 
-Fragment(<>, or <React.Fragment>) - an empty wrapper component.
-Portal - render elements outside the component itself in the html file.
-Ref - try to read data from a DOM element in code.
+- Fragment(<>, or <React.Fragment>) - an empty wrapper component
+- Portal - render elements outside the component itself in the html file
 
-### Effects, Reducers and Context
+```js
+<div id="overlays"></div>;
 
-`useEffect()` - run after the component re-evaluation when dependency is changed. You must add all "things" you use in your effect function to the dependency list, if those "things" could change because your component (or some parent component) re-rendered.
+const portalElement = document.getElementById("overlays");
+ReactDOM.createPortal(<Backdrop onClose={props.onClose} />, portalElement);
+ReactDOM.createPortal(
+  <ModalOverlay>{props.children}</ModalOverlay>,
+  portalElement
+);
+```
+
+- Ref - try to read data from a DOM element in code
+
+```js
+const inputRef = useRef();
+useEffect(() => {
+  inputRef.current.focus();
+}, []);
+
+<input ref={inputRef} />;
+```
+
+### Effects, Reducers and Context hooks
+
+- `effect` - anything other than render UI and react to user input. e.g. store data in browser storate, send http requests, set timers
+
+- `useEffect(() => {}, [despendencies])` - a function that executed after component re-evaluation if the specified dependency changed. Add "everything" you use in the effect function as a dependency - i.e. all state variables and functions you use in there.
+
+```js
+let myTimer;
+const MyComponent = (props) => {
+  const [timerIsActive, setTimerIsActive] = useState(false);
+  const { timerDuration } = props;
+
+  useEffect(() => {
+    if (!timerIsActive) {
+      setTimerIsActive(true);
+      myTimer = setTimeout(() => {
+        setTimerIsActive(false);
+      }, timerDuration);
+    }
+  }, [timerIsActive, timerDuration]);
+  // setTimerIsActive - not a dependency, React guarantees the state update function never changes
+  // myTimer - not a dependency, not a component internal variable
+  // setTimeout - not a dependency, it's a browser built-in API
+};
+```
+
+Implement debounce using `useEffect()`, only check for validity after email and password have no change for 500 ms
 
 ```js
 const [enteredEmail, setEnteredEmail] = useState();
@@ -53,19 +103,21 @@ useEffect(() => {
     );
   }, 500);
 
-  // effect cancallation
+  // effect cleanup
   return () => {
     console.log("Clean up");
     clearTimeout(timer);
   };
-}, [enteredEmail, enteredPassword]); // dependency list
+}, [enteredEmail, enteredPassword]);
 ```
 
-`useReducer()` - replacement for `useState()` if need more powerful state management.
+- `useReducer()` - for more complex state, e.g. multiple states, multiple ways of changing it. It's a replacement for `useState()` if need more powerful state management.
 
 ```js
 const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);
+```
 
+```js
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.includes("@") };
@@ -73,38 +125,57 @@ const emailReducer = (state, action) => {
   if (action.type === "INPUT_BLUR") {
     return { value: state.value, isValid: state.value.includes("@") };
   }
-  return { value: "", isValid: false };
+  return initialState;
 };
 
-const [emailState, dispatchEmail] = useReducer(emailReducer, {
-  value: "",
-  isValid: false,
-});
+const initialState = { value: "", isValid: false };
+const [emailState, dispatchEmail] = useReducer(emailReducer, initialState);
 
 dispatchEmail({ type: "USER_INPUT", val: "value" });
 dispatchEmail({ type: "USER_BLUR" });
 ```
 
-`useContext()`
+- `useContext()`
+- React Context is not optimized for high frequency changes, use Redux instead!
+- React Context should not be used to replace all component communications and props, components should still be configurable via props and short prop chains.
 
 ```js
-const AuthContext = React.createContext({
+export const AuthContext = React.createContext({
   isLoggedIn: false,
   onLogout: () => {},
+  onLogin: (email, password) => {},
 });
-export default AuthContext;
+
+export const AuthContextProvider = (props) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const logoutHandler = () => {
+    setIsLoggedIn(false);
+  };
+
+  const loginHandler = () => {
+    setIsLoggedIn(true);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: isLoggedIn,
+        onLogout: logoutHandler,
+        onLogin: loginHandler,
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  );
+};
 
 // provide
-<AuthContext.Provider
-  value={{
-    isLoggedIn: false,
-    onLogout: logoutHandler, // can pass function as well
-  }}
->
-  <div>...</div>
-</AuthContext.Provider>;
+<AuthContextProvider>
+  <App />
+</AuthContextProvider>;
 
-// consume
+// another js - consumer
 const context = useContext(AuthContext);
 context.isLoggedIn;
 context.onLogout;
@@ -114,7 +185,7 @@ context.onLogout;
 
 `React.memo(DemoOutput)` - avoid re-evaluation of the component and its child conponents if no props changed.
 
-`useCallback(() => {}, [])` - store the function so that function will be pointed to the original one after re-evaluated. Dependency list is the state where the function should be re-created when they are changed.
+`useCallback(() => {}, [])` - store the `function`` so that function will be pointed to the original one after re-evaluated. Dependency list is the state where the function should be re-created when they are changed.
 
 ```js
 const toggleHandler = useCallback(() => {
@@ -124,12 +195,10 @@ const toggleHandler = useCallback(() => {
 }, [allowToggle]);
 ```
 
-`useMemo()` - store some data which will need intensive calculation or resources.
+`useMemo()` - store some `data` which will need intensive calculation or resources.
 
 ```js
-const listItems = useMemo(() => [5, 3, 1, 10, 9], [])
-<DemoList title={listTitle} items={listItems} />
-
+// memorize the sortedList, until the dependency e.g. items are changed
 const { items } = props;
 const sortedList = useMemo(() => {
   return items.sort((a, b) => a - b);
@@ -137,8 +206,6 @@ const sortedList = useMemo(() => {
 ```
 
 ### Class Based Component
-
-![](media/class-based-component.png)
 
 #### State and Event Handler
 
@@ -263,7 +330,7 @@ class ErrorBoundary extends Component {
 export default ErrorBoundary;
 ```
 
-### Send Requests
+### Send HTTP Requests
 
 ```js
 // using promise
@@ -305,6 +372,7 @@ async function addMovieHandler(movie) {
       "Content-Type": "application/json",
     },
   });
+  const data = await response.json();
 }
 ```
 
@@ -312,4 +380,35 @@ async function addMovieHandler(movie) {
 
 ![](media/how-redux-works.png)
 
+React Redux vs React Context
+
+- In more complex apps, managing React Context can lead to deeply nested JSX Provider code or huge "Context Provider" components
+- React Context is not optimized for high-frequency state changes
+
 ### React Router
+
+### Custom Hook Function
+
+```js
+export const useCounter = (forwards = true) => {
+  const [counter, setCounter] = useState(0);
+
+  // will rerun when forwards changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (forwards) {
+        setCounter((prevCounter) => prevCounter + 1);
+      } else {
+        setCounter((prevCounter) => prevCounter - 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [forwards]);
+
+  return counter;
+};
+
+// use
+const counter = useCounter();
+```
