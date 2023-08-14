@@ -5,14 +5,14 @@ Create a small app where 5 random cards (or more) appear at each reload. Never h
 [Shuffle Card Game 2](https://blog.devgenius.io/react-js-tutorial-how-to-implement-a-shuffle-card-game-from-scratch-part2-198dc972023c)
 
 ```js
-// create an array with length number, then map it
-[...Array(Number(number))].map((_, index) => {}
+// create an array with length = number, then map it
+[...Array(Number(number))].map((_, index) => {...}
 
 // randomly choose an item from an array
 const randomSymbols = symbols[Math.floor(Math.random() * symbols.length)];
 
 // a hook that pick a random card from a list, a card cannot be picked twice
-const useRandomValueFromArray = () => {
+export const useRandomValueFromArray = () => {
   let availableIndices = [];
 
   const randomValueFromArray = (array) => {
@@ -21,9 +21,9 @@ const useRandomValueFromArray = () => {
         availableIndices.push(i);
       }
     }
-    let availableIndex = Math.floor(Math.random() * availableIndices.length);
-    let indexInArray = availableIndices[availableIndex];
-    availableIndices.splice(availableIndex, 1);
+    let randomIndex = Math.floor(Math.random() * availableIndices.length);
+    let indexInArray = availableIndices[randomIndex];
+    availableIndices.splice(randomIndex, 1);
     return array[indexInArray];
   };
 
@@ -32,12 +32,10 @@ const useRandomValueFromArray = () => {
   };
 };
 
-export default useRandomValueFromArray;
-
 // use of the hook
-import useRandomValueFromArray from "../hooks/useRandomValueFromArray";
+import { useRandomValueFromArray } from "../hooks/useRandomValueFromArray";
 const { randomValueFromArray } = useRandomValueFromArray();
-randomValueFromArray(numbers);
+const randomCard = randomValueFromArray(numbers);
 
 // array reduce example
 const totalScore = scoreArray.reduce((total, item) => total + item, 0);

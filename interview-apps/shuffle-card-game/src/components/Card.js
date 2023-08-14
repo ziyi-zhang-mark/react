@@ -1,31 +1,21 @@
 import CardCenterElement from "./CardCenterElement";
 import BorderCardFigureConditions from "./BorderCardFigureConditions";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-const Card = ({
-  numberArray,
+export const Card = ({
+  cardObj,
   color,
   symbol,
   name,
-  randomValue,
   scoreArray,
   cardsNumber,
 }) => {
-  const isMounted = useRef(false);
-
   useEffect(() => {
-    if (!isMounted) {
-      return;
+    if (scoreArray.length < cardsNumber) {
+      scoreArray.push(cardObj.score);
+      console.log(`Card cardObj.score: ${cardObj.score}`);
     }
-    isMounted.current = true;
-    if (
-      numberArray.id === randomValue.id &&
-      scoreArray.length < Number(cardsNumber)
-    ) {
-      scoreArray.push(randomValue.score);
-      isMounted.current = false;
-    }
-  }, [isMounted, scoreArray, numberArray, randomValue, cardsNumber]);
+  }, [scoreArray, cardObj, cardsNumber]);
 
   return (
     <div className="card-container">
@@ -37,22 +27,22 @@ const Card = ({
           color: "lightgrey",
         }}
       >
-        Card pts: {randomValue.score}
+        Card pts: {cardObj.score}
       </p>
       <div className={`card-content__inner ${name}`}>
         {/* top left section of the card */}
         <div className={`card-content-inner__border-top ${color}`}>
           <div className="top-symbol">
-            <BorderCardFigureConditions number={numberArray.number} />
+            <BorderCardFigureConditions number={cardObj.number} />
             <span className="top-symbol-sigle">{symbol}</span>
           </div>
         </div>
         {/* center of the card */}
         <div
-          className={`card-content-inner__center grid-${numberArray.number} ${color}`}
+          className={`card-content-inner__center grid-${cardObj.number} ${color}`}
         >
           <CardCenterElement
-            number={numberArray.number}
+            number={cardObj.number}
             symbol={symbol}
             name={name}
           />
@@ -62,12 +52,10 @@ const Card = ({
           <div />
           <div className="bottom-symbol">
             <span className="bottom-symbol-sigle">{symbol}</span>
-            <p>{numberArray.number}</p>
+            <p>{cardObj.number}</p>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-export default Card;

@@ -1,5 +1,5 @@
 // a hook that pick a random card from a list, a card cannot be picked twice
-const useRandomValueFromArray = () => {
+export const useRandomValueFromArray = () => {
   let availableIndices = [];
 
   const randomValueFromArray = (array) => {
@@ -18,5 +18,3 @@ const useRandomValueFromArray = () => {
     randomValueFromArray,
   };
 };
-
-export default useRandomValueFromArray;

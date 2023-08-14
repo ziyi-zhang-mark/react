@@ -1,4 +1,4 @@
-import CardsWrapper from "./components/CardsWrapper";
+import { CardsWrapper } from "./components/CardsWrapper";
 import "./App.css";
 
 function App() {
