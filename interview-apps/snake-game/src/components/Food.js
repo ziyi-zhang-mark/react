@@ -1,6 +1,6 @@
 import "../App.css";
 
-// snake prop is an array of small boxes with (x, y) value
+// position prop is a coordinate (x, y) representing a food
 export const Food = ({ position }) => {
   return (
     <div>
