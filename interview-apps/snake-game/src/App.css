@@ -1,0 +1,30 @@
+.App {
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: monospace;
+  border-radius: 10px;
+  position: relative;
+}
+
+.snake-body {
+  width: 15px;
+  height: 15px;
+  background-color: brown;
+  margin: 5px;
+  position: absolute;
+  z-index: 1;
+}
+
+.food {
+  width: 15px;
+  height: 15px;
+  background-color: #3dd1e7;
+  margin: 3px;
+  position: absolute;
+  z-index: 0;
+}
