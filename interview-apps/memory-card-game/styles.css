@@ -1,0 +1,42 @@
+body {
+  font-family: sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  --size: 60px;
+
+  border: 2px solid black;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  justify-content: center;
+  padding: 8px;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #eee;
+  overflow: hidden;
+  font-size: 30px;
+}
+
+.card:disabled {
+  color: #000;
+}
+
+.card--revealed {
+  background: white;
+  border-color: white;
+}
