@@ -175,7 +175,7 @@ export const AuthContextProvider = (props) => {
   <App />
 </AuthContextProvider>;
 
-// another js - consumer
+// consumer
 const context = useContext(AuthContext);
 context.isLoggedIn;
 context.onLogout;

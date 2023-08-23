@@ -59,7 +59,6 @@ export default function App() {
         // return data;
       })
     );
-    console.log(jobsForCurPage);
     setJobs([...jobs, ...jobsForCurPage]);
     setIsFetching(false);
   };

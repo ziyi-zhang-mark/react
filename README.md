@@ -1,5 +1,6 @@
-- [Javascript Basics](/js.md)
-- [React Basics](/react-basics.md)
+- [Frontend knowledge](/Frontend.md)
+- [React Basics & Hooks](/React.md)
+- [Fullstack knowledge](/FullStack.md)
 
 React - The Complete Guide (incl Hooks, React Router, Redux)
 

@@ -1,4 +1,4 @@
-### React Coding challenge
+# React
 
 [3 coding challenges for React developer](https://hackernoon.com/top-3-coding-challenges-for-mid-level-react-developers)
 
@@ -69,11 +69,12 @@ export default App;
 ```
 
 ### Loop through
+
 ```js
 // loop through obj
-var obj = {'0':'a', '1':'b', '2':'c'};
-for(var i in obj) {
-     console.log(i, ":", obj[i]);
+var obj = { 0: "a", 1: "b", 2: "c" };
+for (var i in obj) {
+  console.log(i, ":", obj[i]);
 }
 
 // loop through array
@@ -82,24 +83,27 @@ arr.forEach((val, index) => console.log(val, index));
 
 var arr = ["a", "b", "c", "d"];
 for (var i in arr) {
-    console.log(i, ":", arr[i]);
+  console.log(i, ":", arr[i]);
 }
-for (var value of arr){
-    console.log(value);
+for (var value of arr) {
+  console.log(value);
 }
 ```
 
 ### Populate array
+
 4 Ways to populate an array
 
 ```js
-let filledArray = Array(10).fill(null).map(() => ({'hello': 'bye'}));
+let filledArray = Array(10)
+  .fill(null)
+  .map(() => ({ hello: "bye" }));
 ```
 
 ```js
 let filledArray = new Array(10);
 for (let i = 0; i < filledArray.length; i++) {
-    filledArray[i] = {'hello': 'bye'};
+  filledArray[i] = { hello: "bye" };
 }
 ```
 
@@ -115,16 +119,20 @@ let filledArray = [...new Array(10)].map(() => {'hello': 'bye'});
 ```
 
 ### others
+
 ```js
-arr.filter(Boolean)
+arr.filter(Boolean);
 
 // the same as writing:
-arr.filter( function(x) { return Boolean(x); });
+arr.filter(function (x) {
+  return Boolean(x);
+});
 var a = [1, 2, "b", 0, {}, "", NaN, 3, undefined, null, 5];
-var b = a.filter(Boolean);  // [1, 2, "b", {}, 3, 5]; 
+var b = a.filter(Boolean); // [1, 2, "b", {}, 3, 5];
 ```
 
 ### CSS Grid
+
 [CSS Grid](https://css-tricks.com/snippets/css/complete-guide-grid/#aa-grid-properties)
 
 ```css
@@ -137,4 +145,5 @@ var b = a.filter(Boolean);  // [1, 2, "b", {}, 3, 5];
 ```
 
 ### CSS Flexbox
+
 [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
