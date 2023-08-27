@@ -13,11 +13,12 @@ const swap = (array, i, j) => {
   array[j] = temp;
 };
 const shuffleCards = (array) => {
-  const length = array.length;
-  for (let i = length; i > 0; i--) {
+  for (let i = array.length; i > 0; i--) {
     const randomIndex = Math.floor(Math.random() * i);
     const currentIndex = i - 1;
     swap(array, currIndex, randomIndex);
+    // another swap method
+    // [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
 };

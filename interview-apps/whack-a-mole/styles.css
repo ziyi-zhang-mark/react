@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  --background-color: salmon;
+  font-family: sans-serif;
+  background-color: var(--background-color);
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.round-information {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  aspect-ratio: 1/1;
+}
+
+.grid__cell {
+  border: none;
+  background-color: var(--background-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.grid__cell-contents {
+  object-fit: contain;
+  position: absolute;
+  bottom: 0;
+}
+
+.mole-head {
+  width: 100%;
+  height: 70%;
+  transform: translate(-50%, 100%);
+  transition: transform 100ms ease-in;
+}
+
+.mole-hill {
+  width: 100%;
+  height: 30%;
+  transform: translate(-50%, 10px);
+}
+
+.mole-head--visible {
+  transform: translate(-50%, 0%);
+}

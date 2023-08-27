@@ -108,17 +108,16 @@ for (let i = 0; i < filledArray.length; i++) {
 ```
 
 ```js
-let filledArray = Array.from(
-  { length, 10 },
-  () => ({'hello': 'bye'})
-);
+Array.from({ length: 5 }, (v, i) => i);  // [0, 1, 2, 3, 4]
+Array.from([1, 2, 3], (x) => x + x);  // [2, 4, 6]
+Array.from('foo');  // ["f", "o", "o"]
 ```
 
 ```js
 let filledArray = [...new Array(10)].map(() => {'hello': 'bye'});
 ```
 
-### others
+### array operations
 
 ```js
 arr.filter(Boolean);
@@ -129,6 +128,19 @@ arr.filter(function (x) {
 });
 var a = [1, 2, "b", 0, {}, "", NaN, 3, undefined, null, 5];
 var b = a.filter(Boolean); // [1, 2, "b", {}, 3, 5];
+
+// slice - will return a new array
+const cities = ["Tokyo", "Cairo", "Los Angeles", "Paris", "Seattle"];
+cities.slice(2);  // ["Los Angeles", "Paris", "Seattle"]
+cities.slice(-2);  // ["Paris", "Seattle"]
+cities.slice(2, 4);  // ["Los Angeles", "Paris"]
+
+// splice will modify the original array, and return removed items only, otherwise return an empty array []
+const food = ['pizza', 'cake', 'salad', 'cookie'];
+// add burrito at the index 1, and delete count is 0
+food.splice(1, 0, "burrito");  // ['pizza', 'burrito', 'cake', 'salad', 'cookie']
+// at the index 2, and delete count is 1
+food.splice(2, 1);  // ['pizza', 'cake', 'cookie']
 ```
 
 ### CSS Grid
