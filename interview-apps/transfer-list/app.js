@@ -14,7 +14,7 @@ const ItemList = ({ items, setItems }) => {
   return (
     <div className="transfer-list__section">
       <ul className="transfer-list__section_items">
-        // map to array
+        {/* map to array */}
         {Array.from(items).map(([label, checked]) => (
           <li key={label}>
             <CheckBoxItem
