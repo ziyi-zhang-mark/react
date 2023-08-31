@@ -1,0 +1,9 @@
+body {
+  font-family: sans-serif;
+}
+
+.flight-booker {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
