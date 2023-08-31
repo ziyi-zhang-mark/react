@@ -50,3 +50,21 @@ useEffect(() => {
   fetchJobs(page);
 }, [page]);
 ```
+
+### POST resquest
+```js
+const response = await fetch(
+  'https://www.greatfrontend.com/api/questions/contact-form',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+    }),
+  },
+);
+```
