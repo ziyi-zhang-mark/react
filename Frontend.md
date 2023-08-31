@@ -97,7 +97,7 @@ for (var value of arr) {
 ```js
 let filledArray = Array(10)
   .fill(null)
-  .map(() => ({ hello: "bye" }));
+  .map((_, i) => ({ hello: "bye" }));
 ```
 
 ```js
