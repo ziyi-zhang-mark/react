@@ -1,0 +1,21 @@
+body {
+  font-family: sans-serif;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.calculator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calculator-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
