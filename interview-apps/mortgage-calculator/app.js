@@ -43,7 +43,7 @@ export default function App() {
         onSubmit={onSubmit}
       >
         <div>
-          <label forhtml="loan-amount">Loan Amount: </label>
+          <label htmlFor="loan-amount">Loan Amount: </label>
           <input 
             id="loan-amount"
             type="number" 
@@ -54,7 +54,7 @@ export default function App() {
         </div>
 
         <div>
-          <label forhtml='loan-term'>Loan Term (years): </label>
+          <label htmlFor='loan-term'>Loan Term (years): </label>
           <input 
             id="loan-term" 
             type="number" 
@@ -65,7 +65,7 @@ export default function App() {
         </div>
 
         <div>
-          <label forhtml='interest-rate'>Interest Rate (%): </label>
+          <label htmlFor='interest-rate'>Interest Rate (%): </label>
           <input 
             id="interest-rate" 
             type="number" 
