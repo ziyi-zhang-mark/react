@@ -4,17 +4,14 @@
 npx create-react-app react-complete-guide
 ```
 
-index.js first executed
-
-Components are just javascript functions
-
-props in components
-
-Declarative - you define the desired outcome, let the library to figure out individual steps.
+- index.js first executed
+- Components are just javascript functions
+- Declarative - you define the desired outcome, let the library to figure out individual steps.
 
 ### React State and Handling Events
 
-Update state with previous state using a function in setter.
+- State change will trigger a re-render of the component.
+- Update state with previous state using a function in setter.
 
 ```js
 // DO NOT
@@ -24,6 +21,8 @@ setUserInput((prevState) => {
   return { ...prevState, enteredTitle: event.target.value };
 });
 ```
+
+- **Controlled component**: the props and event handler are both passed from the parent component.
 
 ### Lists and Conditional Content
 
@@ -64,9 +63,11 @@ useEffect(() => {
 
 ### Effects, Reducers and Context hooks
 
+#### useEffect - [sandbox example](https://codesandbox.io/s/useeffect-hook-hjrkfn?file=/src/store/auth.context.js)
+
 - `effect` - anything other than render UI and react to user input. e.g. store data in browser storate, send http requests, set timers
 
-- `useEffect(() => {}, [despendencies])` - a function that executed after component re-evaluation if the specified dependency changed. Add "everything" you use in the effect function as a dependency - i.e. all state variables and functions you use in there.
+- `useEffect(() => {}, [despendencies])` - a function that executed **AFTER** component re-evaluation if the specified dependency changed. Add "everything" you use in the effect function as a dependency - i.e. all state variables and functions you use in there. The function runs after the component re-evaluation when dependency is changed.
 
 ```js
 let myTimer;
@@ -103,13 +104,16 @@ useEffect(() => {
     );
   }, 500);
 
-  // effect cleanup
+  // effect cleanup function
+  // runs every time before useEffect function runs, and before  component unmounts from the DOM
   return () => {
     console.log("Clean up");
     clearTimeout(timer);
   };
 }, [enteredEmail, enteredPassword]);
 ```
+
+#### useReducer - [sample code](https://codesandbox.io/s/useeffect-hook-hjrkfn?file=/src/components/Login/Login.js)
 
 - `useReducer()` - for more complex state, e.g. multiple states, multiple ways of changing it. It's a replacement for `useState()` if need more powerful state management.
 
@@ -118,6 +122,7 @@ const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);
 ```
 
 ```js
+const initialState = { value: "", isValid: false };
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.includes("@") };
@@ -128,24 +133,26 @@ const emailReducer = (state, action) => {
   return initialState;
 };
 
-const initialState = { value: "", isValid: false };
 const [emailState, dispatchEmail] = useReducer(emailReducer, initialState);
 
 dispatchEmail({ type: "USER_INPUT", val: "value" });
 dispatchEmail({ type: "USER_BLUR" });
 ```
 
-- `useContext()`
-- React Context is not optimized for high frequency changes, use Redux instead!
-- React Context should not be used to replace all component communications and props, components should still be configurable via props and short prop chains.
+#### useContext - [sample code](https://codesandbox.io/s/useeffect-hook-hjrkfn?file=/src/store/auth.context.js)
+
+- `React Context` is not optimized for high frequency changes, use Redux instead!
+- `React Context` should not be used to replace all component communications and props, components should still be configurable via props and short prop chains.
 
 ```js
+// both in auth-context.js
 export const AuthContext = React.createContext({
   isLoggedIn: false,
   onLogout: () => {},
   onLogin: (email, password) => {},
 });
 
+// a custom Context Provider Component
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -181,13 +188,26 @@ context.isLoggedIn;
 context.onLogout;
 ```
 
-### Optimization
+#### Forward Refs
 
-`React.memo(DemoOutput)` - avoid re-evaluation of the component and its child conponents if no props changed.
+### Optimization - [sample code](https://codesandbox.io/s/behind-the-scenes-forked-zyjnjm?file=/src/App.js)
 
-`useCallback(() => {}, [])` - store the `function`` so that function will be pointed to the original one after re-evaluated. Dependency list is the state where the function should be re-created when they are changed.
+#### React.memo()
+
+Avoid re-evaluation of the component and its child conponents if no **props** changed.
 
 ```js
+export const DemoOutput = React.memo((props) => {
+  return ...;
+});
+```
+
+#### useCallback(() => {}, [])
+
+Store the `function` so that the function will be pointed to the original one after re-evaluated. Dependency list is the state where the function should be re-created when they are changed.
+
+```js
+const [allowToggle, setAllowToggle] = useState(false);
 const toggleHandler = useCallback(() => {
   if (allowToggle) {
     setShowParagraph((prevState) => !preState);
@@ -195,10 +215,12 @@ const toggleHandler = useCallback(() => {
 }, [allowToggle]);
 ```
 
-`useMemo()` - store some `data` which will need intensive calculation or resources.
+#### useMemo()
+
+Store some `data` which will need intensive calculation or resources.
 
 ```js
-// memorize the sortedList, until the dependency e.g. items are changed
+// memorize the sortedList, until the dependency items is changed
 const { items } = props;
 const sortedList = useMemo(() => {
   return items.sort((a, b) => a - b);
@@ -387,13 +409,15 @@ React Redux(redux-react-demo) vs React Context(meals)
 
 ### React Router
 
-### Custom Hook Function
+### Custom hooks - [sample code](https://codesandbox.io/s/custom-react-hook-function-forked-7ycnfr?file=/src/hooks/use-counter.js)
+
+#### useCounter
 
 ```js
 export const useCounter = (forwards = true) => {
   const [counter, setCounter] = useState(0);
 
-  // will rerun when forwards changes
+  // will rerun when the props forwards changes
   useEffect(() => {
     const interval = setInterval(() => {
       if (forwards) {
@@ -410,5 +434,87 @@ export const useCounter = (forwards = true) => {
 };
 
 // use
-const counter = useCounter();
+const counter = useCounter(false);
+```
+
+#### useHttp
+
+```js
+export const useHttp = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const sendRequest = useCallback(async (requestConfig, applyData) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(requestConfig.url, {
+        method: requestConfig.method ? requestConfig.method : "GET",
+        headers: requestConfig.headers ? requestConfig.headers : {},
+        body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
+      });
+
+      if (!response.ok) {
+        throw new Error("request failed");
+      }
+      const data = await response.json();
+      applyData(data);
+    } catch (error) {
+      setError(error.message || "something went wrong");
+    }
+    setIsLoading(false);
+  }, []);
+
+  return {
+    isLoading,
+    error,
+    sendRequest,
+  };
+};
+
+// use the custom hook
+export const App = () => {
+  const [tasks, setTasks] = useState([]);
+  const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+
+  useEffect(() => {
+    const transformTasks = (tasksObj) => {
+      const loadedTasks = [];
+      for (const taskKey in tasksObj) {
+        loadedTasks.push({ id: taskKey, text: tasksObject[taskKey].text });
+      }
+      setTasks(loadedTasks);
+    };
+
+    fetchTasks(
+      {
+        url: "https://react-projects-37027-default-rtdb.firebaseio.com/tasks.json",
+      },
+      transformTasks
+    );
+  }, [fetchTasks]);
+
+  // POST request
+  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
+  sendTaskRequest({
+    url: "https://react-projects-37027-default-rtdb.firebaseio.com/tasks.json",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: { text: taskText },
+  }, (taskData) => {
+    const generatedId = taskData.name;
+    const createdTask = { id: generatedId, text: taskText }
+    ...
+  });
+
+  return (
+    <Tasks
+      items={tasks}
+      loading={isLoading}
+      error={error}
+      onFetch={fetchTasks}
+    />
+  );
+};
 ```
